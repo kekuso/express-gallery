@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+html(lang="en")
+head
+  meta(charset="utf-8")
+  title Express Gallery
+body
+  h1 Welcome to the gallery!
+  if new Date().getHours() >= 17
+    h2 Good evening
+  h2 The time is currently #{new Date()}
+  h3 You are currently visitor #{visitorCount}!
