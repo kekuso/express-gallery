@@ -23,7 +23,13 @@ app.get('/gallery/:id', function (req, res) {
     res.send("Gallery submission form");
   }
   else {
-    res.send("Single gallery " + req.params.id);
+    console.log("id: " + req.params.id);
+    Gallery.displayPicture(parseInt(req.params.id), function (err, result) {
+      if(err) {
+        throw err;
+      }
+      res.render('gallery', result);
+    });
   }
 });
 
@@ -42,7 +48,9 @@ app.post('/gallery', function (req, res) {
 
 app.put('/gallery/:id', function (req, res) {
   var locals = req.body;
-  res.render('gallery', locals);
+  Gallery.putGallery(req.params.id, locals, function (err, result) {
+    res.render('gallery', result);
+  });
 });
 
 app.delete('/gallery/:id', function (req, res) {
