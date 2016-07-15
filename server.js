@@ -14,9 +14,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.get('/', function (req, res) {
   var locals = req.body;
   Gallery.displayAll(function (err, result) {
-    for(var i = 0; i < result.length; i++) {
-      res.render('index', result[i]);
-    }
+    res.render('index', {layout: 'layout', json: result});
   });
 });
 
@@ -38,7 +36,6 @@ app.post('/gallery', function (req, res) {
       console.log(result);
       res.render('gallery', result);
     });
-  //res.send("Creating a gallery with " + req.body.author + ", " + req.body.url + ", " + req.body.description);
 });
 
 app.put('/gallery/:id', function (req, res) {

@@ -7,8 +7,9 @@ html(lang="en")
     h1 _ARCHITEKT
     br
     br
-    h4 #{title} - &nbsp;
-      a(href = mainurl) #{mainurl}
-    img(src = pictureUrl)
-    p Uploaded by: #{author}
-    p description
+    each val in json
+      h4 #{val.title} - &nbsp;
+        a(href = val.mainurl) #{val.mainurl}
+      img(src = val.pictureUrl)
+      p Uploaded by: #{val.author}
+      p #{val.description}

@@ -27,6 +27,7 @@ function displayGallery (callback) {
       throw err;
     }
     var parsed = JSON.parse(json);
+    //console.log(parsed);
     callback(null, parsed);
   });
 }
