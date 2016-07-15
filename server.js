@@ -31,10 +31,12 @@ app.post('/gallery', function (req, res) {
     var locals = req.body;
     Gallery.create(locals, function (err, result) {
       if (err) {
-        throw err;
+        console.log("Client sent picture that already exists.");
+        res.send("Picture already exists.");
       }
-      console.log(result);
-      res.render('gallery', result);
+      else {
+        res.render('gallery', result);
+      }
     });
 });
 

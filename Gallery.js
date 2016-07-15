@@ -2,22 +2,34 @@ var path = require('path');
 var fs = require('fs');
 
 module.exports = {
-  create: addGallery,
+  create: postGallery,
   displayAll: displayGallery
 };
 
 var JSON_DATA_PATH = path.resolve('data', 'gallery.json');
 
-function addGallery (data, callback) {
+function postGallery (data, callback) {
   fs.readFile(JSON_DATA_PATH, 'utf8', function (err, json) {
     if(err) {
       throw err;
     }
     var galleries = JSON.parse(json);
-    galleries.push(data);
-    fs.writeFile(JSON_DATA_PATH, JSON.stringify(galleries), function(err) {
-      callback(err,data);
-    });
+    var duplicate = false;
+    for(var i = 0; i < galleries.length; i++) {
+      if(data.title === galleries[i].title) {
+        duplicate = true;
+      }
+    }
+    if(duplicate) {
+      callback("Picture already exists", data);
+    }
+    else {
+      galleries.push(data);
+      fs.writeFile(JSON_DATA_PATH, JSON.stringify(galleries), function(err) {
+        callback(err,data);
+      });
+    }
+    duplicate = false;
   });
 }
 
