@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 
 module.exports = {
-  create: postGallery,
+  postGallery: postGallery,
   displayAll: displayGallery
 };
 
@@ -24,6 +24,11 @@ function postGallery (data, callback) {
       callback("Picture already exists", data);
     }
     else {
+      // Assign ID values
+      for(var j = 0; j < galleries.length; j++) {
+        galleries[j].id = j;
+      }
+      data.id = j;
       galleries.push(data);
       fs.writeFile(JSON_DATA_PATH, JSON.stringify(galleries), function(err) {
         callback(err,data);
