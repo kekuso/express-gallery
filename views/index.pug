@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 html(lang="en")
-head
-  meta(charset="utf-8")
-  title Express Gallery
-body
-  h1 Welcome to the gallery!
-  if new Date().getHours() >= 17
-    h2 Good evening
-  h2 The time is currently #{new Date()}
-  h3 You are currently visitor #{visitorCount}!
+  head
+    meta(charset="utf-8")
+    title Express Gallery
+  body
+    h1 _ARCHITEKT
+    br
+    br
+    h4 #{title} - &nbsp;
+      a(href = mainurl) #{mainurl}
+    img(src = pictureUrl)
+    p Uploaded by: #{author}
+    p description

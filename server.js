@@ -11,10 +11,13 @@ app.set('view engine', 'pug');
 
 app.use(bodyParser.urlencoded({extended:true}));
 
-var visitorCount = 0;
 app.get('/', function (req, res) {
-  res.render('index', {visitorCount : ++visitorCount});
-  //res.send("Returning a list of gallery photos.");
+  var locals = req.body;
+  Gallery.displayAll(function (err, result) {
+    for(var i = 0; i < result.length; i++) {
+      res.render('index', result[i]);
+    }
+  });
 });
 
 app.get('/gallery/:id', function (req, res) {
@@ -28,7 +31,6 @@ app.get('/gallery/:id', function (req, res) {
 
 app.post('/gallery', function (req, res) {
     var locals = req.body;
-
     Gallery.create(locals, function (err, result) {
       if (err) {
         throw err;
