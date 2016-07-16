@@ -20,7 +20,7 @@ app.get('/', function (req, res) {
 
 app.get('/gallery/:id', function (req, res) {
   if(req.params.id === 'new') {
-    res.send("Gallery submission form");
+    res.render('newPhoto');
   }
   else {
     console.log("id: " + req.params.id);

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    title Express Gallery
+  body
+    h1 _ARCHITEKT
+    br
+    br
+    h4 Submit a New Picture
+    form(action="//formspree.io/your@email.com",method="POST")
+      div.input
+        span.label Author
+        input(type="text", author="author")
+      div.input
+        span.label Link
+        input(type="text", link="link")
+      div.input
+        span.label Description
+        textarea(name="description", cols="40", rows="5")
+      input(type="submit" value="Send")
