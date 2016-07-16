@@ -26,9 +26,12 @@ app.get('/gallery/:id', function (req, res) {
     console.log("id: " + req.params.id);
     Gallery.displayPicture(parseInt(req.params.id), function (err, result) {
       if(err) {
-        throw err;
+        console.log("Client tried accessing a picture that doesn't exist.");
+        res.render('404');
       }
-      res.render('gallery', result);
+      else {
+        res.render('gallery', result);
+      }
     });
   }
 });

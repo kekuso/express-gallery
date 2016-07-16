@@ -76,15 +76,26 @@ function putGallery (id, data, callback) {
     if(err) {
       throw err;
     }
+    var duplicate = false;
     var parsed = JSON.parse(json);
     for(var i = 0; i < parsed.length; i++) {
       if(parsed[i].id === id) {
         data.id = i;
         parsed[i] = data;
+        duplicate = true;
       }
     }
-    fs.writeFile(JSON_DATA_PATH, JSON.stringify(parsed), function(err) {
+    if(duplicate) {
+      fs.writeFile(JSON_DATA_PATH, JSON.stringify(parsed), function(err) {
         callback(err,data);
-    });
+      });
+    }
+    else {
+      data.id = i;
+      parsed.push(data);
+      fs.writeFile(JSON_DATA_PATH, JSON.stringify(parsed), function(err) {
+        callback(err,data);
+      });
+    }
   });
 }
