@@ -58,8 +58,10 @@ function displayPicture (id, callback) {
     }
     var parsed = JSON.parse(json);
     // check for invalid id
-    if(parseInt(id) < 0 || parseInt(id) > parsed.length) {
-      callback("Invalid ID", null);
+    console.log(id);
+    console.log(parsed.length);
+    if(parseInt(id) < 0 || parseInt(id) > parsed.length - 1) {
+      callback("Invalid ID", json);
     }
     for(var i = 0; i < parsed.length; i++) {
       if(parsed[i].id === id) {
@@ -77,6 +79,7 @@ function putGallery (id, data, callback) {
     var parsed = JSON.parse(json);
     for(var i = 0; i < parsed.length; i++) {
       if(parsed[i].id === id) {
+        data.id = i;
         parsed[i] = data;
       }
     }

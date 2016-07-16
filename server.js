@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.get('/', function (req, res) {
   var locals = req.body;
   Gallery.displayAll(function (err, result) {
-    res.render('index', {layout: 'layout', json: result});
+    res.render('index', {json: result});
   });
 });
 
@@ -48,7 +48,10 @@ app.post('/gallery', function (req, res) {
 
 app.put('/gallery/:id', function (req, res) {
   var locals = req.body;
-  Gallery.putGallery(req.params.id, locals, function (err, result) {
+  Gallery.putGallery(parseInt(req.params.id), locals, function (err, result) {
+    if(err) {
+      throw err;
+    }
     res.render('gallery', result);
   });
 });
