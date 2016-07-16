@@ -20,6 +20,8 @@ app.get('/', function (req, res) {
 
 app.get('/gallery/:id', function (req, res) {
   if(req.params.id === 'new') {
+    var success = "Thank you. Picture received.";
+    var failure = "Whoops! There was a problem sending your picture.";
     res.render('newPhoto');
   }
   else {
@@ -60,7 +62,16 @@ app.put('/gallery/:id', function (req, res) {
 });
 
 app.delete('/gallery/:id', function (req, res) {
-  res.send("Deleting gallery " + req.params.id);
+  var locals = req.body;
+  Gallery.deletePicture(parseInt(req.params.id), locals, function (err, result) {
+    if(err) {
+      console.log("Client tried deleting a picture that doesn't exist.");
+      res.render('404');
+    }
+    else {
+      res.render('index', {json: result});
+    }
+  });
 });
 
 var server = app.listen(3000, function () {

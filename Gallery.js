@@ -5,7 +5,8 @@ module.exports = {
   postGallery: postGallery,
   displayAll: displayGallery,
   displayPicture: displayPicture,
-  putGallery: putGallery
+  putGallery: putGallery,
+  deletePicture: deletePicture
 };
 
 var JSON_DATA_PATH = path.resolve('data', 'gallery.json');
@@ -96,6 +97,31 @@ function putGallery (id, data, callback) {
       fs.writeFile(JSON_DATA_PATH, JSON.stringify(parsed), function(err) {
         callback(err,data);
       });
+    }
+  });
+}
+
+function deletePicture (id, data, callback) {
+  fs.readFile(JSON_DATA_PATH, 'utf8', function (err, json) {
+    if(err) {
+      throw err;
+    }
+    var parsed = JSON.parse(json);
+    var found = false;
+    for(var i = 0; i < parsed.length; i++) {
+      if(parsed[i].id === id) {
+        parsed.splice(i, 1);
+        found = true;
+      }
+    }
+
+    if(found) {
+      fs.writeFile(JSON_DATA_PATH, JSON.stringify(parsed), function(err) {
+        callback(null, parsed);
+      });
+    }
+    else {
+      callback("Picture not found.", data);
     }
   });
 }
