@@ -4,11 +4,14 @@ html(lang="en")
     meta(charset="utf-8")
     title Express Gallery
   body
-    h1 _ARCHITEKT
-    br
-    br
-    h4 #{title} - &nbsp;
-      a(href = mainurl) #{mainurl}
-    img(src = pictureUrl)
-    p Uploaded by: #{author}
-    p description
+    form(action="/gallery/" + id + "?_method=DELETE", method = "post")
+      h1 _ARCHITEKT
+      br
+      br
+      h4 #{title} - &nbsp;
+        a(href = mainurl) #{mainurl}
+      img(src = pictureUrl)
+      p Uploaded by: #{author}
+      p #{description}
+      br
+      input(type="submit" value="Delete")

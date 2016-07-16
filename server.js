@@ -34,6 +34,7 @@ app.get('/gallery/:id', function (req, res) {
         res.render('404');
       }
       else {
+        result.mainurl = result.pictureUrl;
         res.render('gallery', result);
       }
     });
@@ -73,7 +74,9 @@ app.delete('/gallery/:id', function (req, res) {
       res.render('404');
     }
     else {
-      res.render('index', {json: result});
+      console.log("Removed picture ID: " + req.params.id);
+      var id = result.id;
+      res.render('index', {json: result, id: id});
     }
   });
 });
@@ -83,7 +86,3 @@ var server = app.listen(3000, function () {
   var port = server.address().port;
   console.log("App listening on http://%s:%s", host, port);
 });
-
-function getDataOnClick () {
-
-}
