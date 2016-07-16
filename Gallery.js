@@ -59,15 +59,20 @@ function displayPicture (id, callback) {
     }
     var parsed = JSON.parse(json);
     // check for invalid id
-    console.log(id);
-    console.log(parsed.length);
-    if(parseInt(id) < 0 || parseInt(id) > parsed.length - 1) {
-      callback("Invalid ID", json);
-    }
+    var found = false;
+    var foundValue;
     for(var i = 0; i < parsed.length; i++) {
       if(parsed[i].id === id) {
-        callback(null, parsed[i]);
+        found = true;
+        foundValue = parsed[i];
+        break;
       }
+    }
+    if(found) {
+      callback(null, foundValue);
+    }
+    else {
+      callback("Could not find picture.", null);
     }
   });
 }
@@ -118,6 +123,7 @@ function deletePicture (id, data, callback) {
     if(found) {
       fs.writeFile(JSON_DATA_PATH, JSON.stringify(parsed), function(err) {
         callback(null, parsed);
+        found = false;
       });
     }
     else {

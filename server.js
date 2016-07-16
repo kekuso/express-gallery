@@ -5,10 +5,12 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var querystring = require('querystring');
 var Gallery = require('./Gallery');
+var methodOverride = require('method-override');
 
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.get('/', function (req, res) {
@@ -46,6 +48,7 @@ app.post('/gallery', function (req, res) {
         res.send("Picture already exists.");
       }
       else {
+        result.mainurl = result.pictureUrl;
         res.render('gallery', result);
       }
     });
@@ -57,6 +60,7 @@ app.put('/gallery/:id', function (req, res) {
     if(err) {
       throw err;
     }
+    result.mainurl = result.pictureUrl;
     res.render('gallery', result);
   });
 });
@@ -79,3 +83,7 @@ var server = app.listen(3000, function () {
   var port = server.address().port;
   console.log("App listening on http://%s:%s", host, port);
 });
+
+function getDataOnClick () {
+
+}

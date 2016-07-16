@@ -8,14 +8,17 @@ html(lang="en")
     br
     br
     h4 Submit a New Picture
-    form(action="//formspree.io/your@email.com",method="POST")
+    form(action="/gallery",method="POST",id="form")
+      div.input
+        span.label Title
+        input(type="text", name="title")
       div.input
         span.label Author
-        input(type="text", author="author")
+        input(type="text", name="author")
       div.input
         span.label Link
-        input(type="text", link="link")
+        input(type="text", name="pictureUrl")
       div.input
-        span.label Description
+        div.label Description
         textarea(name="description", cols="40", rows="5")
-      input(type="submit" value="Send")
+      input(type="submit" value="Submit")
