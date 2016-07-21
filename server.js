@@ -41,6 +41,19 @@ app.get('/gallery/:id', function (req, res) {
   }
 });
 
+app.get('/gallery/:id/edit', function (req, res) {
+  Gallery.displayPicture(parseInt(req.params.id), function (err, result) {
+    if(err) {
+      console.log("Client tried accessing a picture that doesn't exist.");
+      res.render('404');
+    }
+    else {
+      result.mainurl = result.pictureUrl;
+      res.render('edit', result);
+    }
+  });
+});
+
 app.post('/gallery', function (req, res) {
     var locals = req.body;
     Gallery.postGallery(locals, function (err, result) {
@@ -55,14 +68,14 @@ app.post('/gallery', function (req, res) {
     });
 });
 
-app.put('/gallery/:id', function (req, res) {
+app.put('/gallery/:id/edit', function (req, res) {
   var locals = req.body;
   Gallery.putGallery(parseInt(req.params.id), locals, function (err, result) {
     if(err) {
       throw err;
     }
     result.mainurl = result.pictureUrl;
-    res.render('gallery', result);
+    res.render('edit', result);
   });
 });
 

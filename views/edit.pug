@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    title Express Gallery
+  body
+    form(action="/gallery/" + id + "/edit" + "?_method=put",method="post",id="form")
+      div.input
+        span.label Title
+        input(type="text", name="title", value=title)
+      div.input
+        span.label Author
+        input(type="text", name="author", value=author)
+      div.input
+        span.label Link
+        input(type="text", name="pictureUrl",value=pictureUrl)
+      div.input
+        div.label Description
+        textarea(name="description", cols="40", rows="5") #{description}
+      input(type="submit" value="Submit")
