@@ -113,12 +113,15 @@ body {
     .welcome {
       border-left: 1px solid; } }
 
-.frontPageListing {
-  width: 33vw; }
-  .frontPageListing .frontPagePicture {
-    width: 33vw; }
+.imageContainer {
+  width: 22vw;
+  display: inline-block;
+  padding: 10px; }
+  .imageContainer .frontPagePicture {
+    width: 22vw;
+    padding: 10px; }
 
-.frontPageListing:first-child .frontPagePicture {
+.firstImageContainer .frontPagePicture {
   display: block;
   width: 80vw;
   height: 250px;

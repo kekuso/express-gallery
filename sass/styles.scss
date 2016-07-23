@@ -85,14 +85,17 @@ body {
   }
 }
 
-.frontPageListing {
-  width: 33vw;
+.imageContainer {
+  width: 22vw;
+  display: inline-block;
+  padding: 10px;
   .frontPagePicture {
-    width: 33vw;
+    width: 22vw;
+    padding: 10px;
   }
 }
 
-.frontPageListing:first-child {
+.firstImageContainer {
   .frontPagePicture {
     display: block;
     width: 80vw;

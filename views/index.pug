@@ -20,13 +20,15 @@ html(lang="en")
         ul
           each val, index in json
             if index === 0
-              li(class = 'frontPageListing')
+              li(class = 'firstImageContainer')
                 img(src = val.pictureUrl class = 'frontPagePicture')
                 hr
             else
-              li(class = 'frontPageListing')
+              li(class = 'imageContainer')
                 img(src = val.pictureUrl class = 'frontPagePicture')
                 h4 #{val.title}
                 p Uploaded by: #{val.author}
                 p #{val.description}
-                hr
+                if index % 3 === 0
+                  hr(class = 'frontGalleryDivider')
+
