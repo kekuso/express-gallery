@@ -3,14 +3,30 @@ html(lang="en")
   head
     meta(charset="utf-8")
     title Express Gallery
+    link(rel = 'stylesheet', href = '/css/styles.css')
   body
-    h1 _ARCHITEKT
-    br
-    br
-    each val in json
-      h4 #{val.title} - &nbsp;
-        a(href = val.mainurl) #{val.mainurl}
-      img(src = val.pictureUrl)
-      p Uploaded by: #{val.author}
-      p #{val.description}
+    div(class = 'mainPage')
       hr
+      div(class = 'header')
+        div(class = 'title')
+          h1 _ARCHITEKT
+        //- div(class = 'vertDivider') &nbsp;
+        div(class = 'welcome')
+          span Welcome to our online portfolio, we are a small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps.
+      br
+      br
+      br
+      div(class = 'galleryListing')
+        ul
+          each val, index in json
+            if index === 0
+              li(class = 'frontPageListing')
+                img(src = val.pictureUrl class = 'frontPagePicture')
+                hr
+            else
+              li(class = 'frontPageListing')
+                img(src = val.pictureUrl class = 'frontPagePicture')
+                h4 #{val.title}
+                p Uploaded by: #{val.author}
+                p #{val.description}
+                hr

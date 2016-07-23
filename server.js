@@ -8,10 +8,12 @@ var Gallery = require('./Gallery');
 var methodOverride = require('method-override');
 
 app.set('views', path.resolve(__dirname, 'views'));
+app.use(express.static('public'));
 app.set('view engine', 'pug');
 
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended:true}));
+//app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.get('/', function (req, res) {
   var locals = req.body;

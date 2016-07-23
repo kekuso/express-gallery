@@ -1,0 +1,103 @@
+// Resets, clearfix
+@import "sass/partials/_reset.scss";
+@import "sass/partials/_clearfix.scss";
+
+// variables
+$menuBG: #3A3A3C;
+$menuText: #818285;
+$subtitleText: #97999C;
+
+// media query ranges
+$small: "only screen and (min-width: 200px) and (max-width: 599px)";
+$medium: "only screen and (min-width: 600px) and (max-width: 899px)";
+$large: "only screen and (min-width: 1000px)";
+// Mixins
+@mixin small {
+  @media #{$small} {
+    @content;
+  }
+}
+@mixin medium {
+  @media #{$medium} {
+    @content;
+  }
+}
+@mixin large {
+  @media #{$large} {
+    @content;
+  }
+}
+
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  background-image: url("/assets/bg.jpg");
+  font-family: 'Lato', sans-serif;
+  color: gray;
+  h1 {
+    font-size: 40px;
+    color: gray;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+  }
+}
+
+.mainPage {
+  width: 80vw;
+  display: block;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  display: inline-block;
+  color: gray;
+  span {
+    letter-spacing: normal;
+  }
+}
+
+.title {
+  display: inline-block;
+  padding: 10px;
+}
+
+.vertDivider {
+  display: inline-block;
+  width: 2px;
+  height: 40px;
+  background-color: gray;
+  position: relative;
+  margin-top: 10px;
+  margin-left: 10px;
+  z-index: 10;
+}
+
+.welcome {
+  display: inline-block;
+  text-align: left;
+  padding: 10px;
+  max-width: 500px;
+  @include large {
+    border-left: 1px solid;
+  }
+}
+
+.frontPageListing {
+  width: 33vw;
+  .frontPagePicture {
+    width: 33vw;
+  }
+}
+
+.frontPageListing:first-child {
+  .frontPagePicture {
+    display: block;
+    width: 80vw;
+    height: 250px;
+    object-fit: cover;
+    margin: 0 auto;
+  }
+}
