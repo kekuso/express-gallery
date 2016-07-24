@@ -26,70 +26,88 @@ app.get('/', function (req, res) {
       // console.log("pictures: ", picture);
       res.render('index', {json: picture});
     });
-  // Gallery.displayAll(function (err, result) {
-  //   res.render('index', {json: result});
-  // });
 });
 
 app.get('/gallery/:id', function (req, res) {
   if(req.params.id === 'new') {
-    var success = "Thank you. Picture received.";
-    var failure = "Whoops! There was a problem sending your picture.";
     res.render('newPhoto');
   }
   else {
     console.log("id: " + req.params.id);
-    Gallery.displayPicture(parseInt(req.params.id), function (err, result) {
-      if(err) {
-        console.log("Client tried accessing a picture that doesn't exist.");
-        res.render('404');
-      }
-      else {
-        // result.mainurl = result.pictureUrl;
-        // send the picture and the next 3 pictures if they exist
-        var newResult = [];
-        for(var i = 0; i < result.length && i < 4; i++) {
-          newResult.push(result[i]);
+
+    Picture.findAll({
+      where: {
+        id: { gte: parseInt(req.params.id) }},
+        id: { lte: parseInt(req.params.id) }
+        })
+      .then(function (picture) {
+        // console.log("pictures: ", picture);
+        res.render('gallery', {json: picture});
+      }, function (error) {
+        if(error) {
+          console.log("Client tried accessing a picture that doesn't exist.");
+          res.render('404');
         }
-        res.render('gallery', {json: newResult});
-      }
-    });
+      });
+    // Gallery.displayPicture(parseInt(req.params.id), function (err, result) {
+    //   if(err) {
+    //     console.log("Client tried accessing a picture that doesn't exist.");
+    //     res.render('404');
+    //   }
+    //   else {
+    //     // result.mainurl = result.pictureUrl;
+    //     // send the picture and the next 3 pictures if they exist
+    //     var newResult = [];
+    //     for(var i = 0; i < result.length && i < 4; i++) {
+    //       newResult.push(result[i]);
+    //     }
+    //     res.render('gallery', {json: newResult});
+    //   }
+    // });
   }
 });
 
 app.get('/gallery/:id/edit', function (req, res) {
-  Gallery.displayPicture(parseInt(req.params.id), function (err, result) {
-    if(err) {
-      console.log("Client tried accessing a picture that doesn't exist.");
-      res.render('404');
-    }
-    else {
-      result.mainurl = result.pictureUrl;
-      res.render('edit', result);
-    }
-  });
+  Picture.findAll( {where: { id: req.body.id}} )
+    .then(function (picture) {
+      // console.log("pictures: ", picture);
+      res.render('edit', {json: picture});
+    }, function (error) {
+      if(error) {
+        console.log("Client tried accessing a picture that doesn't exist.");
+        res.render('404');
+      }
+    });
+
+  // Gallery.displayPicture(parseInt(req.params.id), function (err, result) {
+  //   if(err) {
+  //     console.log("Client tried accessing a picture that doesn't exist.");
+  //     res.render('404');
+  //   }
+  //   else {
+  //     result.mainurl = result.pictureUrl;
+  //     res.render('edit', result);
+  //   }
+  // });
 });
 
 app.post('/gallery', function (req, res) {
     var locals = req.body;
 
     Picture.create({
+      title: req.body.title,
       author: req.body.author,
       url: req.body.url,
       description: req.body.description
-      }).then(function (picture) {
-        res.json(picture);
-      });
-    // Gallery.postGallery(locals, function (err, result) {
-    //   if (err) {
-    //     console.log("Client sent picture that already exists.");
-    //     res.send("Picture already exists.");
-    //   }
-    //   else {
-    //     result.mainurl = result.pictureUrl;
-    //     res.render('gallery', result);
-    //   }
-    // });
+      })
+        .then(function (picture) {
+          res.json(picture);
+        }, function (error) {
+          if(error) {
+            console.log("Picture already exists.");
+            res.send("Picture already exists.");
+          }
+        });
 });
 
 app.put('/gallery/:id/edit', function (req, res) {
