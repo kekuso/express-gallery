@@ -6,6 +6,7 @@ var path = require('path');
 var querystring = require('querystring');
 var Gallery = require('./Gallery');
 var methodOverride = require('method-override');
+var db = require('./models');
 
 app.set('views', path.resolve(__dirname, 'views'));
 app.use(express.static('public'));
@@ -13,17 +14,24 @@ app.set('view engine', 'pug');
 
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 //app.use(express.static(path.resolve(__dirname, 'public')));
+
+var Picture = db.Picture;
 
 app.get('/', function (req, res) {
   var locals = req.body;
-  Gallery.displayAll(function (err, result) {
-    res.render('index', {json: result});
-  });
+  Picture.findAll()
+    .then(function (picture) {
+      // console.log("pictures: ", picture);
+      res.render('index', {json: picture});
+    });
+  // Gallery.displayAll(function (err, result) {
+  //   res.render('index', {json: result});
+  // });
 });
 
 app.get('/gallery/:id', function (req, res) {
-  var numPictures;
   if(req.params.id === 'new') {
     var success = "Thank you. Picture received.";
     var failure = "Whoops! There was a problem sending your picture.";
@@ -37,7 +45,7 @@ app.get('/gallery/:id', function (req, res) {
         res.render('404');
       }
       else {
-        //result.mainurl = result.pictureUrl;
+        // result.mainurl = result.pictureUrl;
         // send the picture and the next 3 pictures if they exist
         var newResult = [];
         for(var i = 0; i < result.length && i < 4; i++) {
@@ -64,16 +72,24 @@ app.get('/gallery/:id/edit', function (req, res) {
 
 app.post('/gallery', function (req, res) {
     var locals = req.body;
-    Gallery.postGallery(locals, function (err, result) {
-      if (err) {
-        console.log("Client sent picture that already exists.");
-        res.send("Picture already exists.");
-      }
-      else {
-        result.mainurl = result.pictureUrl;
-        res.render('gallery', result);
-      }
-    });
+
+    Picture.create({
+      author: req.body.author,
+      url: req.body.url,
+      description: req.body.description
+      }).then(function (picture) {
+        res.json(picture);
+      });
+    // Gallery.postGallery(locals, function (err, result) {
+    //   if (err) {
+    //     console.log("Client sent picture that already exists.");
+    //     res.send("Picture already exists.");
+    //   }
+    //   else {
+    //     result.mainurl = result.pictureUrl;
+    //     res.render('gallery', result);
+    //   }
+    // });
 });
 
 app.put('/gallery/:id/edit', function (req, res) {
@@ -103,6 +119,8 @@ app.delete('/gallery/:id', function (req, res) {
 });
 
 var server = app.listen(3000, function () {
+  db.sequelize.sync();
+
   var host = server.address().address;
   var port = server.address().port;
   console.log("App listening on http://%s:%s", host, port);

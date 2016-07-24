@@ -20,11 +20,11 @@ html(lang="en")
           each val, index in json
             if index === 0
               li(class = 'firstImageContainer')
-                img(src = val.pictureUrl class = 'frontPagePicture')
+                img(src = val.url class = 'frontPagePicture')
                 hr
             else
               li(class = 'imageContainer')
-                img(src = val.pictureUrl class = 'frontPagePicture')
+                img(src = val.url class = 'frontPagePicture')
                 div(class = 'pictureInfo')
                   h4 #{val.title}
                   p Uploaded by: #{val.author}
