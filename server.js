@@ -40,12 +40,9 @@ app.get('/gallery/:id', function (req, res) {
         //result.mainurl = result.pictureUrl;
         // send the picture and the next 3 pictures if they exist
         var newResult = [];
-        console.log("results: ", result);
-        console.log("result.length: ", result.length);
         for(var i = 0; i < result.length && i < 4; i++) {
           newResult.push(result[i]);
         }
-        console.log("newResult: ", newResult);
         res.render('gallery', {json: newResult});
       }
     });
