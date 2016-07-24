@@ -23,6 +23,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/gallery/:id', function (req, res) {
+  var numPictures;
   if(req.params.id === 'new') {
     var success = "Thank you. Picture received.";
     var failure = "Whoops! There was a problem sending your picture.";
@@ -36,8 +37,16 @@ app.get('/gallery/:id', function (req, res) {
         res.render('404');
       }
       else {
-        result.mainurl = result.pictureUrl;
-        res.render('gallery', result);
+        //result.mainurl = result.pictureUrl;
+        // send the picture and the next 3 pictures if they exist
+        var newResult = [];
+        console.log("results: ", result);
+        console.log("result.length: ", result.length);
+        for(var i = 0; i < result.length && i < 4; i++) {
+          newResult.push(result[i]);
+        }
+        console.log("newResult: ", newResult);
+        res.render('gallery', {json: newResult});
       }
     });
   }

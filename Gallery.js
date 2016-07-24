@@ -68,8 +68,10 @@ function displayPicture (id, callback) {
         break;
       }
     }
+    parsed = parsed.slice(i);
+
     if(found) {
-      callback(null, foundValue);
+      callback(null, parsed);
     }
     else {
       callback("Could not find picture.", null);

@@ -69,8 +69,7 @@ html {
 
 body {
   height: 100%;
-  background-image: url("/assets/bg.jpg");
-  font-family: 'Lato', sans-serif;
+  font-family: sans-serif;
   color: gray; }
   body h1 {
     font-size: 40px;
@@ -83,14 +82,22 @@ body {
   display: block;
   margin: 0 auto; }
 
-.header {
-  text-align: center;
-  display: inline-block;
+.galleryPage {
+  width: 80vw;
+  display: block;
+  margin: 0 auto; }
+
+.mainPageHeader {
   color: gray; }
-  .header span {
+  .mainPageHeader span {
     letter-spacing: normal; }
 
-.title {
+.galleryPageHeader {
+  margin-bottom: 30px; }
+  .galleryPageHeader span {
+    letter-spacing: normal; }
+
+.mainTitle {
   display: inline-block;
   padding: 10px; }
 
@@ -104,22 +111,55 @@ body {
   margin-left: 10px;
   z-index: 10; }
 
-.welcome {
+.mainWelcome {
   display: inline-block;
   text-align: left;
   padding: 10px;
   max-width: 500px; }
   @media only screen and (min-width: 1000px) {
-    .welcome {
+    .mainWelcome {
+      border-left: 1px solid; } }
+  @media only screen and (min-width: 200px) and (max-width: 599px) {
+    .mainWelcome {
+      display: none; } }
+
+.galleryTitle {
+  padding: 10px;
+  float: left; }
+
+.galleryWelcome {
+  display: inline-block;
+  text-align: left;
+  max-width: 400px;
+  padding: 10px;
+  float: right; }
+  @media only screen and (min-width: 1000px) {
+    .galleryWelcome {
       border-left: 1px solid; } }
 
+.mainListing {
+  text-align: center;
+  width: 80vw; }
+
+.galleryListing {
+  text-align: center;
+  width: 80vw; }
+
 .imageContainer {
-  width: 22vw;
+  width: 25vw;
   display: inline-block;
   padding: 10px; }
+  @media only screen and (min-width: 200px) and (max-width: 599px) {
+    .imageContainer {
+      display: block;
+      width: 60vw; } }
   .imageContainer .frontPagePicture {
-    width: 22vw;
+    width: 25vw;
     padding: 10px; }
+    @media only screen and (min-width: 200px) and (max-width: 599px) {
+      .imageContainer .frontPagePicture {
+        display: block;
+        width: 60vw; } }
 
 .firstImageContainer .frontPagePicture {
   display: block;
@@ -127,3 +167,7 @@ body {
   height: 250px;
   object-fit: cover;
   margin: 0 auto; }
+
+.pictureInfo {
+  text-align: left;
+  padding-left: 10px; }

@@ -7,16 +7,15 @@ html(lang="en")
   body
     div(class = 'mainPage')
       hr
-      div(class = 'header')
-        div(class = 'title')
+      div(class = 'mainPageHeader')
+        div(class = 'mainTitle')
           h1 _ARCHITEKT
-        //- div(class = 'vertDivider') &nbsp;
-        div(class = 'welcome')
+        div(class = 'mainWelcome')
           span Welcome to our online portfolio, we are a small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps.
       br
       br
       br
-      div(class = 'galleryListing')
+      div(class = 'mainListing')
         ul
           each val, index in json
             if index === 0
@@ -26,9 +25,8 @@ html(lang="en")
             else
               li(class = 'imageContainer')
                 img(src = val.pictureUrl class = 'frontPagePicture')
-                h4 #{val.title}
-                p Uploaded by: #{val.author}
-                p #{val.description}
-                if index % 3 === 0
-                  hr(class = 'frontGalleryDivider')
+                div(class = 'pictureInfo')
+                  h4 #{val.title}
+                  p Uploaded by: #{val.author}
+                  p #{val.description}
 
