@@ -33,44 +33,30 @@ app.get('/gallery/:id', function (req, res) {
     res.render('newPhoto');
   }
   else {
-    console.log("id: " + req.params.id);
-
+    var picId = parseInt(req.params.id);
     Picture.findAll({
       where: {
-        id: { gte: parseInt(req.params.id) }},
-        id: { lte: parseInt(req.params.id) }
-        })
-      .then(function (picture) {
-        // console.log("pictures: ", picture);
-        res.render('gallery', {json: picture});
-      }, function (error) {
-        if(error) {
-          console.log("Client tried accessing a picture that doesn't exist.");
-          res.render('404');
+        id: {
+          $between: [picId, (picId + 2)]
         }
+      },
+    })
+      .then(function (pictures) {
+          console.log(pictures[picId]);
+          res.render('gallery', {json: pictures});
+        // console.log("pictures: ", picture);
+      }).catch( function(error) {
+        console.log("Client tried accessing a picture that doesn't exist.");
+        res.render('404');
       });
-    // Gallery.displayPicture(parseInt(req.params.id), function (err, result) {
-    //   if(err) {
-    //     console.log("Client tried accessing a picture that doesn't exist.");
-    //     res.render('404');
-    //   }
-    //   else {
-    //     // result.mainurl = result.pictureUrl;
-    //     // send the picture and the next 3 pictures if they exist
-    //     var newResult = [];
-    //     for(var i = 0; i < result.length && i < 4; i++) {
-    //       newResult.push(result[i]);
-    //     }
-    //     res.render('gallery', {json: newResult});
-    //   }
-    // });
   }
 });
 
 app.get('/gallery/:id/edit', function (req, res) {
-  Picture.findAll( {where: { id: req.body.id}} )
+  console.log("req.body.id: ", parseInt(req.params.id));
+  Picture.findAll( {where: { id: parseInt(req.params.id)}} )
     .then(function (picture) {
-      // console.log("pictures: ", picture);
+      //console.log("picture data author: ", picture[0].author);
       res.render('edit', {json: picture});
     }, function (error) {
       if(error) {
@@ -78,22 +64,9 @@ app.get('/gallery/:id/edit', function (req, res) {
         res.render('404');
       }
     });
-
-  // Gallery.displayPicture(parseInt(req.params.id), function (err, result) {
-  //   if(err) {
-  //     console.log("Client tried accessing a picture that doesn't exist.");
-  //     res.render('404');
-  //   }
-  //   else {
-  //     result.mainurl = result.pictureUrl;
-  //     res.render('edit', result);
-  //   }
-  // });
 });
 
 app.post('/gallery', function (req, res) {
-    var locals = req.body;
-
     Picture.create({
       title: req.body.title,
       author: req.body.author,
@@ -101,7 +74,7 @@ app.post('/gallery', function (req, res) {
       description: req.body.description
       })
         .then(function (picture) {
-          res.json(picture);
+          res.render('gallery', {json: picture});
         }, function (error) {
           if(error) {
             console.log("Picture already exists.");
@@ -111,28 +84,30 @@ app.post('/gallery', function (req, res) {
 });
 
 app.put('/gallery/:id/edit', function (req, res) {
-  var locals = req.body;
-  Gallery.putGallery(parseInt(req.params.id), locals, function (err, result) {
-    if(err) {
-      throw err;
-    }
-    result.mainurl = result.pictureUrl;
-    res.render('edit', result);
-  });
+  Picture.create({
+      title: req.body.title,
+      author: req.body.author,
+      url: req.body.url,
+      description: req.body.description
+      })
+        .then(function (picture) {
+          res.render('gallery', {json: picture});
+        });
 });
 
 app.delete('/gallery/:id', function (req, res) {
-  var locals = req.body;
-  Gallery.deletePicture(parseInt(req.params.id), locals, function (err, result) {
-    if(err) {
-      console.log("Client tried deleting a picture that doesn't exist.");
-      res.render('404');
+  Picture.destroy( {
+    where: {
+      id: parseInt(req.params.id)
     }
-    else {
-      console.log("Removed picture ID: " + req.params.id);
-      var id = result.id;
-      res.render('index', {json: result, id: id});
-    }
+  }).then(function (picture) {
+    console.log("Client deleted picture ", req.params.id);
+    res.render('index', {json: picture, id: parseInt(req.params.id)});
+  },function (error) {
+      if(error) {
+        console.log("Client tried deleting a picture that doesn't exist.");
+        res.render('404');
+      }
   });
 });
 

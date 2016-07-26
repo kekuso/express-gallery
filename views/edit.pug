@@ -3,19 +3,19 @@ html(lang="en")
   head
     meta(charset="utf-8")
     title Express Gallery
-    link(rel = 'stylesheet', href = './public/css/styles.css')
+    link(rel = 'stylesheet', href = '/css/styles.css')
   body
     form(action="/gallery/" + id + "/edit" + "?_method=put",method="post",id="form")
       div.input
         span.label Title
-        input(type="text", name="title", value=title)
+        input(type="text", name="title", value=json[0].title)
       div.input
         span.label Author
-        input(type="text", name="author", value=author)
+        input(type="text", name="author", value=json[0].author)
       div.input
         span.label Link
-        input(type="text", name="pictureUrl",value=pictureUrl)
+        input(type="text", name="url",value=json[0].url)
       div.input
         div.label Description
-        textarea(name="description", cols="40", rows="5") #{description}
+        textarea(name="description", cols="40", rows="5") #{json[0].description}
       input(type="submit" value="Submit")

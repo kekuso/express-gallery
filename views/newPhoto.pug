@@ -10,16 +10,16 @@ html(lang="en")
     br
     h4 Submit a New Picture
     form(action="/gallery",method="POST",id="form")
-      div.input
-        span.label Title
-        input(type="text", name="title")
-      div.input
-        span.label Author
-        input(type="text", name="author")
-      div.input
-        span.label Link
-        input(type="text", name="pictureUrl")
-      div.input
-        div.label Description
-        textarea(name="description", cols="40", rows="5")
-      input(type="submit" value="Submit")
+        div.input
+          span.label Title
+          input(type="text", name="title")
+        div.input
+          span.label Author
+          input(type="text", name="author")
+        div.input
+          span.label Link
+          input(type="text", name="url")
+        div.input
+          div.label Description
+          textarea(name="description", cols="40", rows="5")
+        input(type="submit" value="Submit")
