@@ -36,29 +36,43 @@ app.get('/gallery/:id', function (req, res) {
     var picId = parseInt(req.params.id);
     Picture.findAll({
       where: {
-        id: {
-          $between: [picId, (picId + 2)]
-        }
-      },
-    })
-      .then(function (pictures) {
-          console.log(pictures[picId]);
-          res.render('gallery', {json: pictures});
-        // console.log("pictures: ", picture);
-      }).catch( function(error) {
+        id: picId
+      }
+    }).then(function (pictures) {
+        res.render('gallery', {json: pictures});
+      // console.log("pictures: ", picture);
+    }).catch( function(error) {
+      if(error) {
         console.log("Client tried accessing a picture that doesn't exist.");
         res.render('404');
-      });
+      }
+    });
+
+
+    // Picture.findAll({
+    //   where: {
+    //     id: {
+    //       $between: [picId, (picId + 2)]
+    //     }
+    //   },
+    // })
+    //   .then(function (pictures) {
+    //       res.render('gallery', {json: pictures});
+    //     // console.log("pictures: ", picture);
+    //   }).catch( function(error) {
+    //     console.log("Client tried accessing a picture that doesn't exist.");
+    //     res.render('404');
+    //   });
   }
 });
 
 app.get('/gallery/:id/edit', function (req, res) {
-  console.log("req.body.id: ", parseInt(req.params.id));
+  console.log("req.params.id: ", parseInt(req.params.id));
   Picture.findAll( {where: { id: parseInt(req.params.id)}} )
     .then(function (picture) {
       //console.log("picture data author: ", picture[0].author);
       res.render('edit', {json: picture});
-    }, function (error) {
+    }).catch(function (error) {
       if(error) {
         console.log("Client tried accessing a picture that doesn't exist.");
         res.render('404');
@@ -96,6 +110,7 @@ app.put('/gallery/:id/edit', function (req, res) {
 });
 
 app.delete('/gallery/:id', function (req, res) {
+  console.log("starting delete");
   Picture.destroy( {
     where: {
       id: parseInt(req.params.id)

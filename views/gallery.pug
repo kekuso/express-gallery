@@ -22,6 +22,7 @@ html(lang="en")
             if index === 0
               li(class = 'firstImageContainer')
                 img(src = val.url class = 'frontPagePicture')
+                input(type="submit" value="Delete")
                 hr
             else
               li(class = 'imageContainer')
@@ -30,5 +31,3 @@ html(lang="en")
                   h4 #{val.title}
                   p Uploaded by: #{val.author}
                   p #{val.description}
-        br
-        input(type="submit" value="Delete")
