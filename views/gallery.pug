@@ -7,7 +7,7 @@ html(lang="en")
   body
     div(class = 'galleryPage')
       hr
-      form(action="/gallery/" + id + "?_method=DELETE", method = "post")
+      form(action="/gallery/" + id + "?_method=delete", method = "post", id = "form")
         div(class = 'galleryPageHeader')
           div(class = 'galleryTitle')
             h1 _ARCHITEKT
@@ -16,6 +16,7 @@ html(lang="en")
         br
         br
         br
+        input(type="submit" value="Delete")
       div(class = 'galleryListing')
         ul
           each val, index in json
@@ -23,7 +24,7 @@ html(lang="en")
               li(class = 'galleryFirstImageContainer')
                 img(src = val.url class = 'frontPagePicture')
                 br
-                input(type="submit" value="Delete")
+
                 hr
             else
               li(class = 'galleryImageContainer')

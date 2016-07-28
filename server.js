@@ -51,7 +51,7 @@ app.get('/gallery/:id', function (req, res) {
         }
       }).then(function (pictures) {
         if(pictures.length > 0) {
-          res.render('gallery', {json: pictures});
+          res.render('gallery', {json: pictures, id: parseInt(req.params.id)});
         }
         else {
           console.log("No pictures to display to client.");
@@ -68,7 +68,7 @@ app.get('/gallery/:id/edit', function (req, res) {
     .then(function (picture) {
       //console.log("picture data author: ", picture[0].author);
       if(picture.length > 0) {
-        res.render('edit', {json: picture});
+        res.render('edit', {json: picture, id: parseInt(req.params.id)});
       }
       else {
         console.log("Client tried accessing a picture that doesn't exist.");
@@ -107,48 +107,50 @@ app.post('/gallery', function (req, res) {
           });
       }
     });
-
-    // if(!duplicate) {
-    //   Picture.create({
-    //     title: req.body.title,
-    //     author: req.body.author,
-    //     url: req.body.url,
-    //     description: req.body.description,
-    //     })
-    //       .then(function (picture) {
-    //         res.render('success');
-    //       }).catch(function (error) {
-    //         console.log(error);
-    //       });
-    // }
-    // else {
-    //   duplicate = false;
-    //   console.log("Picture already exists.");
-    //   res.send("Picture already exists.");
-    // }
 });
 
 app.put('/gallery/:id/edit', function (req, res) {
-  Picture.create({
+  var pathArray = req.path.split('/');
+  console.log("req.params.ed: " + req.params.id);
+  console.log("Path Array: " + pathArray);
+  console.log("req.params.id: ", pathArray[2]);
+  Picture.destroy( {
+    where: {
+      id: parseInt(req.params.id)
+    }
+  }).then(function (picture) {
+    Picture.create({
       title: req.body.title,
       author: req.body.author,
       url: req.body.url,
       description: req.body.description
       })
         .then(function (picture) {
-          res.render('gallery', {json: picture});
+          res.render('success');
+        })
+        .catch(function (error) {
+          console.log(error);
+          res.send("Unable to create picture.");
         });
+  },function (error) {
+      if(error) {
+        console.log("Client tried deleting a picture that doesn't exist.");
+        res.render('404');
+      }
+  });
 });
 
 app.delete('/gallery/:id', function (req, res) {
   console.log("starting delete");
+  console.log("path: ", req.path);
+  console.log("req.params.id: " + req.params.id);
   Picture.destroy( {
     where: {
       id: parseInt(req.params.id)
     }
   }).then(function (picture) {
     console.log("Client deleted picture ", req.params.id);
-    res.render('index', {json: picture, id: parseInt(req.params.id)});
+    res.render('deleteSuccess');
   },function (error) {
       if(error) {
         console.log("Client tried deleting a picture that doesn't exist.");
