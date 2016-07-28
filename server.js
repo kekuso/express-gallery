@@ -15,7 +15,6 @@ app.set('view engine', 'pug');
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-//app.use(express.static(path.resolve(__dirname, 'public')));
 
 var Picture = db.Picture;
 
@@ -23,7 +22,6 @@ app.get('/', function (req, res) {
   var locals = req.body;
   Picture.findAll()
     .then(function (picture) {
-      // console.log("pictures: ", picture);
       res.render('index', {json: picture});
     });
 });
@@ -63,10 +61,8 @@ app.get('/gallery/:id', function (req, res) {
 });
 
 app.get('/gallery/:id/edit', function (req, res) {
-  console.log("req.params.id: ", parseInt(req.params.id));
   Picture.findAll( {where: { id: parseInt(req.params.id)}} )
     .then(function (picture) {
-      //console.log("picture data author: ", picture[0].author);
       if(picture.length > 0) {
         res.render('edit', {json: picture, id: parseInt(req.params.id)});
       }
@@ -104,16 +100,13 @@ app.post('/gallery', function (req, res) {
             res.render('success');
           }).catch(function (error) {
             console.log(error);
+            res.send("Unable to add picture.");
           });
       }
     });
 });
 
 app.put('/gallery/:id/edit', function (req, res) {
-  var pathArray = req.path.split('/');
-  console.log("req.params.ed: " + req.params.id);
-  console.log("Path Array: " + pathArray);
-  console.log("req.params.id: ", pathArray[2]);
   Picture.destroy( {
     where: {
       id: parseInt(req.params.id)
@@ -141,9 +134,6 @@ app.put('/gallery/:id/edit', function (req, res) {
 });
 
 app.delete('/gallery/:id', function (req, res) {
-  console.log("starting delete");
-  console.log("path: ", req.path);
-  console.log("req.params.id: " + req.params.id);
   Picture.destroy( {
     where: {
       id: parseInt(req.params.id)
