@@ -1,5 +1,6 @@
+'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Picture = sequelize.define("Picture", {
+  var Picture = sequelize.define('Picture', {
     title: {
       type: DataTypes.STRING,
       unique: true
@@ -7,7 +8,12 @@ module.exports = function(sequelize, DataTypes) {
     author: DataTypes.STRING,
     url: DataTypes.STRING,
     description: DataTypes.STRING
+  }, {
+    classMethods: {
+      associate: function(models) {
+        // associations can be defined here
+      }
+    }
   });
-
   return Picture;
 };

@@ -2,21 +2,21 @@
   "development": {
     "username": "adam",
     "password": "Password1",
-    "database": "express_database",
+    "database": "express_migration",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "adam",
     "password": "Password1",
-    "database": "express_database",
+    "database": "express_migration",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
     "username": "adam",
     "password": "Password1",
-    "database": "express_database",
+    "database": "express_migration",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
