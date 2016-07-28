@@ -34,35 +34,31 @@ app.get('/gallery/:id', function (req, res) {
   }
   else {
     var picId = parseInt(req.params.id);
-    Picture.findAll({
+    Picture.findOne({
       where: {
         id: picId
       }
-    }).then(function (pictures) {
-        res.render('gallery', {json: pictures});
-      // console.log("pictures: ", picture);
-    }).catch( function(error) {
-      if(error) {
+    }).then(function (picture) {
+      if(!picture) {
         console.log("Client tried accessing a picture that doesn't exist.");
         res.render('404');
       }
+      Picture.findAll({
+        where: {
+          id: {
+            $between: [picId, (picId + 2)]
+          }
+        }
+      }).then(function (pictures) {
+        if(pictures.length > 0) {
+          res.render('gallery', {json: pictures});
+        }
+        else {
+          console.log("No pictures to display to client.");
+          res.render('404');
+        }
+      });
     });
-
-
-    // Picture.findAll({
-    //   where: {
-    //     id: {
-    //       $between: [picId, (picId + 2)]
-    //     }
-    //   },
-    // })
-    //   .then(function (pictures) {
-    //       res.render('gallery', {json: pictures});
-    //     // console.log("pictures: ", picture);
-    //   }).catch( function(error) {
-    //     console.log("Client tried accessing a picture that doesn't exist.");
-    //     res.render('404');
-    //   });
   }
 });
 
@@ -71,7 +67,13 @@ app.get('/gallery/:id/edit', function (req, res) {
   Picture.findAll( {where: { id: parseInt(req.params.id)}} )
     .then(function (picture) {
       //console.log("picture data author: ", picture[0].author);
-      res.render('edit', {json: picture});
+      if(picture.length > 0) {
+        res.render('edit', {json: picture});
+      }
+      else {
+        console.log("Client tried accessing a picture that doesn't exist.");
+        res.render('404');
+      }
     }).catch(function (error) {
       if(error) {
         console.log("Client tried accessing a picture that doesn't exist.");
@@ -81,20 +83,49 @@ app.get('/gallery/:id/edit', function (req, res) {
 });
 
 app.post('/gallery', function (req, res) {
-    Picture.create({
-      title: req.body.title,
-      author: req.body.author,
-      url: req.body.url,
-      description: req.body.description
-      })
-        .then(function (picture) {
-          res.render('gallery', {json: picture});
-        }, function (error) {
-          if(error) {
-            console.log("Picture already exists.");
-            res.send("Picture already exists.");
-          }
-        });
+    var duplicate = false;
+    Picture.findOne({
+      where: {
+        title: req.body.title
+      }
+    }).then(function (picture) {
+      if(picture) {
+        console.log("setting duplicate as true.");
+        res.send("Picture already exists.");
+      }
+      else {
+        Picture.create({
+        title: req.body.title,
+        author: req.body.author,
+        url: req.body.url,
+        description: req.body.description,
+        })
+          .then(function (picture) {
+            res.render('success');
+          }).catch(function (error) {
+            console.log(error);
+          });
+      }
+    });
+
+    // if(!duplicate) {
+    //   Picture.create({
+    //     title: req.body.title,
+    //     author: req.body.author,
+    //     url: req.body.url,
+    //     description: req.body.description,
+    //     })
+    //       .then(function (picture) {
+    //         res.render('success');
+    //       }).catch(function (error) {
+    //         console.log(error);
+    //       });
+    // }
+    // else {
+    //   duplicate = false;
+    //   console.log("Picture already exists.");
+    //   res.send("Picture already exists.");
+    // }
 });
 
 app.put('/gallery/:id/edit', function (req, res) {

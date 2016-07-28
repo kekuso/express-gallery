@@ -17,5 +17,5 @@ html(lang="en")
         input(type="text", name="url",value=json[0].url)
       div.input
         div.label Description
-        textarea(name="description", cols="40", rows="5") #{json[0].description}
+        textarea(name="description", cols="40", rows="5", value = json[0].description) #{json[0].description}
       input(type="submit" value="Submit")

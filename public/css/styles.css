@@ -161,7 +161,31 @@ body {
         display: block;
         width: 60vw; } }
 
+.galleryImageContainer {
+  width: 25vw;
+  display: inline-block;
+  float: right;
+  padding: 10px; }
+  @media only screen and (min-width: 200px) and (max-width: 599px) {
+    .galleryImageContainer {
+      display: block;
+      width: 60vw; } }
+  .galleryImageContainer .frontPagePicture {
+    width: 25vw;
+    padding: 10px; }
+    @media only screen and (min-width: 200px) and (max-width: 599px) {
+      .galleryImageContainer .frontPagePicture {
+        display: block;
+        width: 60vw; } }
+
 .firstImageContainer .frontPagePicture {
+  display: block;
+  width: 80vw;
+  height: 250px;
+  object-fit: cover;
+  margin: 0 auto; }
+
+.galleryFirstImageContainer .frontPagePicture {
   display: block;
   width: 80vw;
   height: 250px;
