@@ -77,14 +77,14 @@ body {
     font-weight: bold;
     letter-spacing: 0.05em; }
 
-.mainPage {
+.galleryPage {
   width: 80vw;
   display: block;
   margin: 0 auto; }
 
-.mainPageHeader {
-  color: gray; }
-  .mainPageHeader span {
+.galleryPageHeader {
+  margin-bottom: 30px; }
+  .galleryPageHeader span {
     letter-spacing: normal; }
 
 .mainTitle {
@@ -119,32 +119,47 @@ body {
     .mainWelcome {
       display: none; } }
 
-.mainListing {
+.galleryTitle {
+  display: inline-block;
+  width: 50%;
+  padding: 10px; }
+
+.galleryWelcome {
+  display: inline-block;
+  text-align: left;
+  max-width: 400px;
+  padding: 10px;
+  float: right; }
+  @media only screen and (min-width: 1000px) {
+    .galleryWelcome {
+      border-left: 1px solid; } }
+
+.galleryListing {
   text-align: center;
   width: 80vw; }
 
-.imageContainer {
+.galleryImageContainer {
   width: 24vw;
   height: 24vh;
   display: inline-block;
   padding: 10px;
   margin: 5px; }
   @media only screen and (min-width: 200px) and (max-width: 650px) {
-    .imageContainer {
+    .galleryImageContainer {
       display: block;
       width: 60vw; } }
-  .imageContainer .frontPagePicture {
+  .galleryImageContainer .frontPagePicture {
     width: 24vw;
     height: 24vh;
     padding: 10px; }
     @media only screen and (min-width: 200px) and (max-width: 650px) {
-      .imageContainer .frontPagePicture {
+      .galleryImageContainer .frontPagePicture {
         display: block;
         width: 60vw; } }
 
-.firstImageContainer .frontPagePicture {
+.galleryFirstImageContainer .frontPagePicture {
   display: block;
-  width: 100%;
+  width: 80vw;
   height: 65vh;
   margin: 0 auto; }
 
@@ -152,17 +167,9 @@ body {
   text-align: left;
   padding-left: 10px; }
 
-.error404-image {
-  max-width: 400px;
-  max-height: 250px; }
-
 .error-text {
   position: relative;
   left: 120px; }
-
-.successImage {
-  width: 100%;
-  height: auto; }
 
 .pictureAndText {
   display: inline-block;

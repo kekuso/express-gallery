@@ -35,14 +35,14 @@ body {
   }
 }
 
-.mainPage {
+.galleryPage {
   width: 80vw;
   display: block;
   margin: 0 auto;
 }
 
-.mainPageHeader {
-  color: gray;
+.galleryPageHeader {
+  margin-bottom: 30px;
   span {
     letter-spacing: normal;
   }
@@ -84,12 +84,30 @@ body {
   }
 }
 
-.mainListing {
+.galleryTitle {
+  display: inline-block;
+  width: 50%;
+  padding: 10px;
+}
+
+.galleryWelcome {
+  display: inline-block;
+  text-align: left;
+  max-width: 400px;
+  padding: 10px;
+  float: right;
+
+  @include large {
+    border-left: 1px solid;
+  }
+}
+
+.galleryListing {
   text-align: center;
   width: 80vw;
 }
 
-.imageContainer {
+.galleryImageContainer {
   width: 24vw;
   height: 24vh;
   display: inline-block;
@@ -112,37 +130,23 @@ body {
   }
 }
 
-
-
-.firstImageContainer {
+.galleryFirstImageContainer {
   .frontPagePicture {
     display: block;
-    width: 100%;
+    width: 80vw;
     height: 65vh;
     margin: 0 auto;
   }
 }
-
-
 
 .pictureInfo {
   text-align: left;
   padding-left: 10px;
 }
 
-.error404-image {
-  max-width: 400px;
-  max-height: 250px;
-}
-
 .error-text {
   position: relative;
   left: 120px;
-}
-
-.successImage {
-  width:100%;
-  height:auto;
 }
 
 .pictureAndText {
