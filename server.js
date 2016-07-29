@@ -107,30 +107,52 @@ app.post('/gallery', function (req, res) {
 });
 
 app.put('/gallery/:id/edit', function (req, res) {
-  Picture.destroy( {
+  console.log("req.body: ", req.body);
+  Picture.find( {
     where: {
       id: parseInt(req.params.id)
     }
   }).then(function (picture) {
-    Picture.create({
-      title: req.body.title,
-      author: req.body.author,
-      url: req.body.url,
-      description: req.body.description
-      })
-        .then(function (picture) {
-          res.render('success');
-        })
-        .catch(function (error) {
-          console.log(error);
-          res.send("Unable to create picture.");
-        });
-  },function (error) {
-      if(error) {
-        console.log("Client tried deleting a picture that doesn't exist.");
-        res.render('404');
-      }
+    if(picture) {
+      picture.updateAttributes({
+        title: req.body.title,
+        author: req.body.author,
+        url: req.body.url,
+        description: req.body.description
+      });
+
+      res.render('success');
+    }
+    else {
+      console.log("Unable to find picture.");
+      res.render('404');
+    }
   });
+
+  // Picture.destroy( {
+  //   where: {
+  //     id: parseInt(req.params.id)
+  //   }
+  // }).then(function (picture) {
+  //   Picture.create({
+  //     title: req.body.title,
+  //     author: req.body.author,
+  //     url: req.body.url,
+  //     description: req.body.description
+  //     })
+  //       .then(function (picture) {
+  //         res.render('success');
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //         res.send("Unable to create picture.");
+  //       });
+  // },function (error) {
+  //     if(error) {
+  //       console.log("Client tried deleting a picture that doesn't exist.");
+  //       res.render('404');
+  //     }
+  // });
 });
 
 app.delete('/gallery/:id', function (req, res) {

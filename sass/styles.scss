@@ -141,6 +141,7 @@ body {
 
 .galleryImageContainer {
   width: 25vw;
+  height: auto;
   display: inline-block;
   float: right;
   padding: 10px;
@@ -174,7 +175,7 @@ body {
   .frontPagePicture {
     display: block;
     width: 80vw;
-    height: auto;
+    height: 40vh;
     object-fit: cover;
     margin: 0 auto;
   }
