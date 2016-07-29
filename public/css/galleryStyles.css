@@ -87,6 +87,21 @@ body {
   .galleryPageHeader span {
     letter-spacing: normal; }
 
+.displayLeft {
+  float: left;
+  width: 60%; }
+  @media only screen and (min-width: 200px) and (max-width: 650px) {
+    .displayLeft {
+      float: none;
+      width: 100%; } }
+
+.displayRight {
+  float: right;
+  width: 40%; }
+  @media only screen and (min-width: 200px) and (max-width: 650px) {
+    .displayRight {
+      float: none; } }
+
 .mainTitle {
   display: inline-block;
   padding: 10px;
@@ -157,11 +172,16 @@ body {
         display: block;
         width: 60vw; } }
 
-.galleryFirstImageContainer .frontPagePicture {
-  display: block;
-  width: 80vw;
-  height: 65vh;
-  margin: 0 auto; }
+.galleryFirstImageContainer {
+  height: 100vh; }
+  @media only screen and (min-width: 200px) and (max-width: 650px) {
+    .galleryFirstImageContainer {
+      height: auto; } }
+  .galleryFirstImageContainer .frontPagePicture {
+    display: block;
+    width: 100%;
+    height: 65vh;
+    margin: 0 auto; }
 
 .pictureInfo {
   text-align: left;

@@ -48,6 +48,25 @@ body {
   }
 }
 
+.displayLeft {
+  float: left;
+  width: 60%;
+
+  @include small {
+    float: none;
+    width: 100%;
+  }
+}
+
+.displayRight {
+  float: right;
+  width: 40%;
+
+  @include small {
+    float: none;
+  }
+}
+
 .mainTitle {
   display: inline-block;
   padding: 10px;
@@ -131,9 +150,15 @@ body {
 }
 
 .galleryFirstImageContainer {
+  height: 100vh;
+
+  @include small {
+    height: auto;
+  }
+
   .frontPagePicture {
     display: block;
-    width: 80vw;
+    width: 100%;
     height: 65vh;
     margin: 0 auto;
   }

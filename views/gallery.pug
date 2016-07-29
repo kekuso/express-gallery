@@ -21,15 +21,16 @@ html(lang="en")
         ul
           each val, index in json
             if index === 0
-              li(class = 'galleryFirstImageContainer')
-                img(src = val.url class = 'frontPagePicture')
-                br
-
-                hr
+              div(class = 'displayLeft')
+                li(class = 'galleryFirstImageContainer')
+                  img(src = val.url class = 'frontPagePicture')
+                  br
+                  hr
             else
-              li(class = 'galleryImageContainer')
-                img(src = val.url class = 'frontPagePicture')
-                div(class = 'pictureInfo')
-                  h4 #{val.title}
-                  p Uploaded by: #{val.author}
-                  p #{val.description}
+              div(class = 'displayRight')
+                li(class = 'galleryImageContainer')
+                  img(src = val.url class = 'frontPagePicture')
+                  div(class = 'pictureInfo')
+                    h4 #{val.title}
+                    p Uploaded by: #{val.author}
+                    p #{val.description}

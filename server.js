@@ -44,7 +44,7 @@ app.get('/gallery/:id', function (req, res) {
       Picture.findAll({
         where: {
           id: {
-            $between: [picId, (picId + 2)]
+            $between: [picId, (picId + 3)]
           }
         }
       }).then(function (pictures) {
