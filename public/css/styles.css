@@ -154,16 +154,24 @@ body {
 
 .error404-image {
   max-width: 400px;
-  max-height: 250px; }
+  max-height: 250px;
+  margin-left: 20px; }
 
 .error-text {
   position: relative;
-  left: 120px; }
-
-.successImage {
-  width: 50%;
-  height: auto; }
+  left: 120px;
+  color: #fb503b; }
 
 .pictureAndText {
   display: inline-block;
   margin: 1px; }
+
+.backText {
+  margin-left: 50px;
+  color: #fb503b; }
+
+.successText {
+  color: green; }
+
+.editPage {
+  color: red; }

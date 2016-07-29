@@ -3,7 +3,7 @@
 @import "sass/partials/_clearfix.scss";
 
 // variables
-
+$orange404: #fb503b;
 
 // media query ranges
 $small: "only screen and (min-width: 200px) and (max-width: 650px)";
@@ -133,19 +133,30 @@ body {
 .error404-image {
   max-width: 400px;
   max-height: 250px;
+  margin-left: 20px;
 }
 
 .error-text {
   position: relative;
   left: 120px;
-}
-
-.successImage {
-  width:50%;
-  height:auto;
+  color: $orange404;
 }
 
 .pictureAndText {
   display: inline-block;
   margin: 1px;
+}
+
+.backText {
+  margin-left: 50px;
+  color: $orange404;
+}
+
+.successText {
+  color: green;
+}
+
+.editPage {
+  // text-align: center;
+  color: red;
 }

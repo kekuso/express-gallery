@@ -3,14 +3,14 @@ html(lang="en")
 head
   meta(charset="utf-8")
   title Picture Added/Edited
-  link(rel = 'stylesheet', href = '/css/styles.css' class = 'successImage')
+  link(rel = 'stylesheet', href = '/css/styles.css')
 body
-  h1 SUCCESS!!!
+  h1(class = 'successText') SUCCESS!!!
   img(src = '/images/success.jpg')
   br
-  h2 Picture added to gallery
+  h2(class = 'successText') Picture added to gallery
   br
   br
   br
   p
-    a(href="/") back
+    a(href="/" class = 'backText') back to Index
