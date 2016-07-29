@@ -119,7 +119,7 @@ body {
   @media only screen and (min-width: 1000px) {
     .mainWelcome {
       border-left: 1px solid; } }
-  @media only screen and (min-width: 200px) and (max-width: 599px) {
+  @media only screen and (min-width: 200px) and (max-width: 650px) {
     .mainWelcome {
       display: none; } }
 
@@ -147,16 +147,18 @@ body {
 
 .imageContainer {
   width: 25vw;
+  height: auto;
   display: inline-block;
   padding: 10px; }
-  @media only screen and (min-width: 200px) and (max-width: 599px) {
+  @media only screen and (min-width: 200px) and (max-width: 650px) {
     .imageContainer {
       display: block;
       width: 60vw; } }
   .imageContainer .frontPagePicture {
     width: 25vw;
+    height: auto;
     padding: 10px; }
-    @media only screen and (min-width: 200px) and (max-width: 599px) {
+    @media only screen and (min-width: 200px) and (max-width: 650px) {
       .imageContainer .frontPagePicture {
         display: block;
         width: 60vw; } }
@@ -166,14 +168,14 @@ body {
   display: inline-block;
   float: right;
   padding: 10px; }
-  @media only screen and (min-width: 200px) and (max-width: 599px) {
+  @media only screen and (min-width: 200px) and (max-width: 650px) {
     .galleryImageContainer {
       display: block;
       width: 60vw; } }
   .galleryImageContainer .frontPagePicture {
     width: 25vw;
     padding: 10px; }
-    @media only screen and (min-width: 200px) and (max-width: 599px) {
+    @media only screen and (min-width: 200px) and (max-width: 650px) {
       .galleryImageContainer .frontPagePicture {
         display: block;
         width: 60vw; } }
@@ -181,14 +183,14 @@ body {
 .firstImageContainer .frontPagePicture {
   display: block;
   width: 80vw;
-  height: 250px;
+  height: 40vh;
   object-fit: cover;
   margin: 0 auto; }
 
 .galleryFirstImageContainer .frontPagePicture {
   display: block;
   width: 80vw;
-  height: 250px;
+  height: auto;
   object-fit: cover;
   margin: 0 auto; }
 
