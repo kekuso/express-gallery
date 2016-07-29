@@ -15,18 +15,19 @@ html(lang="en")
       br
       br
       br
-      div(class = 'mainListing')
-        ul
-          each val, index in json
-            if index === 0
-              li(class = 'firstImageContainer')
-                img(src = val.url class = 'frontPagePicture')
-                hr
-            else
+      ul(class = 'mainListing')
+        each val, index in json
+          if index === 0
+            li(class = 'firstImageContainer')
+              img(src = val.url class = 'frontPagePicture')
+              hr
+          else
+            div(class = 'pictureAndText')
               li(class = 'imageContainer')
                 img(src = val.url class = 'frontPagePicture')
                 div(class = 'pictureInfo')
                   h4 #{val.title}
                   p Uploaded by: #{val.author}
                   p #{val.description}
+                br
 

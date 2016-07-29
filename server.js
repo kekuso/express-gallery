@@ -128,31 +128,6 @@ app.put('/gallery/:id/edit', function (req, res) {
       res.render('404');
     }
   });
-
-  // Picture.destroy( {
-  //   where: {
-  //     id: parseInt(req.params.id)
-  //   }
-  // }).then(function (picture) {
-  //   Picture.create({
-  //     title: req.body.title,
-  //     author: req.body.author,
-  //     url: req.body.url,
-  //     description: req.body.description
-  //     })
-  //       .then(function (picture) {
-  //         res.render('success');
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //         res.send("Unable to create picture.");
-  //       });
-  // },function (error) {
-  //     if(error) {
-  //       console.log("Client tried deleting a picture that doesn't exist.");
-  //       res.render('404');
-  //     }
-  // });
 });
 
 app.delete('/gallery/:id', function (req, res) {
