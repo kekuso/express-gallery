@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 var Picture = db.Picture;
 
-var user = { username: 'bob', password: 'secret4', email: 'bob@example.com' };
+var user = { username: 'bob', password: 'secret6', email: 'bob@example.com' };
 passport.use(new BasicStrategy(
   function(username, password, done) {
     // Example authentication strategy using
@@ -71,7 +71,7 @@ app.get('/gallery/:id', function (req, res) {
   });
 });
 
-passport.authenticate('basic', { session: false });
+app.use(passport.authenticate('basic', { session: false }));
 
 app.get('/gallery/:id/edit', function (req, res) {
   Picture.findAll( {where: { id: parseInt(req.params.id)}} )
@@ -156,6 +156,10 @@ app.delete('/gallery/:id', function (req, res) {
         res.render('404');
       }
   });
+});
+
+app.get('*', function (req, res) {
+  res.render('404');
 });
 
 var server = app.listen(3000, function () {
