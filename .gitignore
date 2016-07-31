@@ -4,6 +4,8 @@ package.json
 
 node_modules/
 
+config/config.json
+
 # Logs
 logs
 *.log

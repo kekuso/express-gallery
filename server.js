@@ -10,6 +10,7 @@ var session = require('express-session');
 var passport = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
 var LocalStrategy = require('passport-local').Strategy;
+var CONFIG = require('./config/config');
 
 var app = express();
 app.set('views', path.resolve(__dirname, 'views'));
@@ -18,28 +19,42 @@ app.set('view engine', 'pug');
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+app.use(session(CONFIG.SESSION));
 
 var Picture = db.Picture;
 var user = { username: 'bob', password: 'secret6', email: 'bob@example.com' };
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
+app.use(passport.initialize());
+app.use(passport.session());
 
-passport.deserializeUser(function(id, done) {
-    done(null, user);
-  });
+function authenticate(username, password) {
+  var CREDENTIALS = CONFIG.CREDENTIALS;
+  var USERNAME = CREDENTIALS.USERNAME;
+  var PASSWORD = CREDENTIALS.PASSWORD;
+
+  return (username === USERNAME &&
+          password === PASSWORD);
+}
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    if( username === user.username && password === user.password) {
-      return done(null, {});
+    var isAuthenticated = authenticate(username, password);
+    if(!isAuthenticated) {
+      return done(null, false);
     }
-    return done(null, false, {message: 'Incorrect login.'});
+    var user = {
+      name: "Bob",
+    };
+    return done(null, user);
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
+passport.serializeUser(function(user, done) {
+  done(null, user);
+}); //this gets saved into session store
+
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+  }); // this becomes req.user
 
 app.get('/', function (req, res) {
   var locals = req.body;
@@ -58,15 +73,26 @@ app.post('/login', passport.authenticate('local', {
   failureRedirect: '/login'
   }));
 
+function isAuthenticated (req, res, next) {
+  if(!req.isAuthenticated()) {
+    return res.redirect('/login');
+  }
+  return next();
+}
+
 app.get('/secret',
-  passport.authenticate('local'),
+  isAuthenticated,
   function (req, res) {
-    console.log("Redirecting...");
-    res.render('/');
+    res.render('secret');
   });
 
+app.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/login');
+});
+
 app.get('/gallery/new',
-  passport.authenticate('local'),
+  isAuthenticated,
   function (req, res) {
     res.render('newPhoto');
   });
@@ -100,9 +126,9 @@ app.get('/gallery/:id', function (req, res) {
   });
 });
 
-app.use(passport.authenticate('local', { session: false }));
-
-app.get('/gallery/:id/edit', function (req, res) {
+app.get('/gallery/:id/edit',
+  isAuthenticated,
+  function (req, res) {
   Picture.findAll( {where: { id: parseInt(req.params.id)}} )
     .then(function (picture) {
       if(picture.length > 0) {
@@ -120,7 +146,9 @@ app.get('/gallery/:id/edit', function (req, res) {
     });
 });
 
-app.post('/gallery', function (req, res) {
+app.post('/gallery',
+  isAuthenticated,
+  function (req, res) {
   var duplicate = false;
   Picture.findOne({
     where: {
@@ -148,7 +176,9 @@ app.post('/gallery', function (req, res) {
   });
 });
 
-app.put('/gallery/:id/edit', function (req, res) {
+app.put('/gallery/:id/edit',
+  isAuthenticated,
+  function (req, res) {
   Picture.find( {
     where: {
       id: parseInt(req.params.id)
@@ -171,7 +201,9 @@ app.put('/gallery/:id/edit', function (req, res) {
   });
 });
 
-app.delete('/gallery/:id', function (req, res) {
+app.delete('/gallery/:id',
+  isAuthenticated,
+  function (req, res) {
   Picture.destroy( {
     where: {
       id: parseInt(req.params.id)

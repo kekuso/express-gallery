@@ -1,4 +1,15 @@
 {
+  "SESSION" : {
+    "resave": true,
+    "saveUninitialized": false,
+    "secret" : "blah123456"
+  },
+
+  "CREDENTIALS" :  {
+    "USERNAME": "bob",
+    "PASSWORD": "secret"
+  },
+
   "development": {
     "username": "adam",
     "password": "Password1",
