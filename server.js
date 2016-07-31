@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 app.use(session(CONFIG.SESSION));
 
 var Picture = db.Picture;
+var User = db.User;
 var user = { username: 'bob', password: 'secret6', email: 'bob@example.com' };
 
 app.use(passport.initialize());
