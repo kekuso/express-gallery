@@ -6,8 +6,10 @@ var querystring = require('querystring');
 var Gallery = require('./Gallery');
 var methodOverride = require('method-override');
 var db = require('./models');
+var session = require('express-session');
 var passport = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
 app.set('views', path.resolve(__dirname, 'views'));
@@ -18,16 +20,26 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 var Picture = db.Picture;
-
 var user = { username: 'bob', password: 'secret6', email: 'bob@example.com' };
-passport.use(new BasicStrategy(
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(id, done) {
+    done(null, user);
+  });
+
+passport.use(new LocalStrategy(
   function(username, password, done) {
-    // Example authentication strategy using
-    if ( !(username === user.username && password === user.password) ) {
-      return done(null, false);
+    if( username === user.username && password === user.password) {
+      return done(null, {});
     }
-    return done(null, user);
+    return done(null, false, {message: 'Incorrect login.'});
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', function (req, res) {
   var locals = req.body;
@@ -37,10 +49,27 @@ app.get('/', function (req, res) {
     });
 });
 
-app.get('/gallery/new', passport.authenticate('basic', { session: false }),
-    function (req, res) {
-      res.render('newPhoto');
-    });
+app.get('/login', function (req, res) {
+  res.render('login');
+});
+
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/secret',
+  failureRedirect: '/login'
+  }));
+
+app.get('/secret',
+  passport.authenticate('local'),
+  function (req, res) {
+    console.log("Redirecting...");
+    res.render('/');
+  });
+
+app.get('/gallery/new',
+  passport.authenticate('local'),
+  function (req, res) {
+    res.render('newPhoto');
+  });
 
 app.get('/gallery/:id', function (req, res) {
   var picId = parseInt(req.params.id);
@@ -71,7 +100,7 @@ app.get('/gallery/:id', function (req, res) {
   });
 });
 
-app.use(passport.authenticate('basic', { session: false }));
+app.use(passport.authenticate('local', { session: false }));
 
 app.get('/gallery/:id/edit', function (req, res) {
   Picture.findAll( {where: { id: parseInt(req.params.id)}} )
