@@ -7,6 +7,7 @@ var Gallery = require('./Gallery');
 var methodOverride = require('method-override');
 var db = require('./models');
 var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 var passport = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
 var LocalStrategy = require('passport-local').Strategy;
@@ -19,11 +20,18 @@ app.set('view engine', 'pug');
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-app.use(session(CONFIG.SESSION));
+app.use(session(
+  {
+    secret: CONFIG.SESSION.secret,
+    saveUninitialized: CONFIG.SESSION.saveUninitialized,
+    resave: CONFIG.SESSION.resave,
+    store : new RedisStore({})
+  })
+);
 
 var Picture = db.Picture;
 var User = db.User;
-var user = { username: 'bob', password: 'secret6', email: 'bob@example.com' };
+//var user = { username: 'bob', password: 'secret6', email: 'bob@example.com' };
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -39,14 +47,36 @@ function authenticate(username, password) {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    var isAuthenticated = authenticate(username, password);
-    if(!isAuthenticated) {
-      return done(null, false);
-    }
-    var user = {
-      name: "Bob",
-    };
-    return done(null, user);
+    console.log("username: ", username);
+    console.log("password: ", password);
+    var isAuthenticated;
+    User.findOne({
+      where: {
+        name: username,
+        password: password
+      }
+    }).then(function (user) {
+      if(user) {
+        console.log("user.name: ", user.name);
+        console.log("user.password: ", user.password);
+        //isAuthenticated = authenticate(user.name, user.password);
+        var userFound = {
+          name: username,
+          password: password
+        };
+        console.log("user found");
+        return done(null, userFound);
+      }
+      else {
+        console.log("user not found");
+        return done(null, false);
+      }
+    });
+    //var isAuthenticated = authenticate(username, password);
+    // if(!isAuthenticated) {
+    //   console.log("user not found");
+    //   return done(null, false);
+    // }
 }));
 
 passport.serializeUser(function(user, done) {

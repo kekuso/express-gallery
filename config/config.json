@@ -7,7 +7,7 @@
 
   "CREDENTIALS" :  {
     "USERNAME": "bob",
-    "PASSWORD": "secret"
+    "PASSWORD": "secret1"
   },
 
   "development": {
