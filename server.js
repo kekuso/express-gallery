@@ -25,7 +25,7 @@ app.use(session(
     secret: CONFIG.SESSION.secret,
     saveUninitialized: CONFIG.SESSION.saveUninitialized,
     resave: CONFIG.SESSION.resave,
-    store : new RedisStore({})
+    store : new RedisStore({ttl: 300})
   })
 );
 
@@ -36,14 +36,14 @@ var User = db.User;
 app.use(passport.initialize());
 app.use(passport.session());
 
-function authenticate(username, password) {
-  var CREDENTIALS = CONFIG.CREDENTIALS;
-  var USERNAME = CREDENTIALS.USERNAME;
-  var PASSWORD = CREDENTIALS.PASSWORD;
+// function authenticate(username, password) {
+//   var CREDENTIALS = CONFIG.CREDENTIALS;
+//   var USERNAME = CREDENTIALS.USERNAME;
+//   var PASSWORD = CREDENTIALS.PASSWORD;
 
-  return (username === USERNAME &&
-          password === PASSWORD);
-}
+//   return (username === USERNAME &&
+//           password === PASSWORD);
+// }
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
@@ -99,17 +99,17 @@ app.get('/login', function (req, res) {
   res.render('login');
 });
 
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/secret',
-  failureRedirect: '/login'
-  }));
-
 function isAuthenticated (req, res, next) {
   if(!req.isAuthenticated()) {
     return res.redirect('/login');
   }
   return next();
 }
+
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/secret',
+  failureRedirect: '/login'
+  }));
 
 app.get('/secret',
   isAuthenticated,
