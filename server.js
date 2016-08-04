@@ -31,19 +31,9 @@ app.use(session(
 
 var Picture = db.Picture;
 var User = db.User;
-//var user = { username: 'bob', password: 'secret6', email: 'bob@example.com' };
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// function authenticate(username, password) {
-//   var CREDENTIALS = CONFIG.CREDENTIALS;
-//   var USERNAME = CREDENTIALS.USERNAME;
-//   var PASSWORD = CREDENTIALS.PASSWORD;
-
-//   return (username === USERNAME &&
-//           password === PASSWORD);
-// }
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
@@ -59,33 +49,29 @@ passport.use(new LocalStrategy(
       if(user) {
         console.log("user.name: ", user.name);
         console.log("user.password: ", user.password);
-        //isAuthenticated = authenticate(user.name, user.password);
         var userFound = {
           name: username,
           password: password
         };
         console.log("user found");
-        return done(null, userFound);
+        return done(null, user);
       }
       else {
         console.log("user not found");
         return done(null, false);
       }
     });
-    //var isAuthenticated = authenticate(username, password);
-    // if(!isAuthenticated) {
-    //   console.log("user not found");
-    //   return done(null, false);
-    // }
 }));
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  console.log("SERIALIZING user: " + user);
+  done(null, user.id);
 }); //this gets saved into session store
 
-passport.deserializeUser(function(user, done) {
-    done(null, user);
-  }); // this becomes req.user
+passport.deserializeUser(function(id, done) {
+  console.log("DESERIALIZING ID: ", id);
+  done(null, id);
+}); // this becomes req.user
 
 app.get('/', function (req, res) {
   console.log("SessionID: " + req.sessionID);

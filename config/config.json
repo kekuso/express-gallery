@@ -5,11 +5,6 @@
     "secret" : "blah123456"
   },
 
-  "CREDENTIALS" :  {
-    "USERNAME": "bob",
-    "PASSWORD": "secret1"
-  },
-
   "development": {
     "username": "adam",
     "password": "Password1",
