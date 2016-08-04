@@ -88,6 +88,7 @@ passport.deserializeUser(function(user, done) {
   }); // this becomes req.user
 
 app.get('/', function (req, res) {
+  console.log("SessionID: " + req.sessionID);
   var locals = req.body;
   Picture.findAll()
     .then(function (picture) {

@@ -35,6 +35,20 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
+    return queryInterface.bulkDelete('Pictures', [{
+      title: "image1"
+    },
 
+    {
+      title: "image2"
+    },
+
+    {
+      title: "image3"
+    },
+
+    {
+      title: "image4"
+    }]);
   }
 };
