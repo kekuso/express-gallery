@@ -22,11 +22,12 @@ html(lang="en")
             if index === 0
               div(class = 'displayLeft')
                 li(class = 'galleryFirstImageContainer')
-                  img(src = val.url class = 'frontPagePicture')
+                  h3(class = 'firstTitle') #{val.title}
+                  img(src = val.url class = 'firstGalleryPicture')
                   br
+                  p(class = 'firstDescription') #{val.description}
                   form(action="/gallery/" + id + "?_method=delete", method = "post", id = "form")
                     button(type="submit" class = 'galleryButton') Delete picture #{id}
-
                   a(href = "/gallery/" + id + "/edit")
                     button(class = 'galleryButton') Edit picture #{id}
                   hr
@@ -34,7 +35,7 @@ html(lang="en")
               div(class = 'displayRight')
                 li(class = 'galleryImageContainer')
                   a(href = "/gallery/" + val.id)
-                    img(src = val.url class = 'frontPagePicture')
+                    img(src = val.url class = 'galleryPicture')
                   div(class = 'pictureInfo')
                     h4 #{val.title}
                     p Uploaded by: #{val.author}

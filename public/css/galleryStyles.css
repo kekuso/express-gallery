@@ -161,27 +161,35 @@ body {
   margin: 5px; }
   @media only screen and (min-width: 200px) and (max-width: 650px) {
     .galleryImageContainer {
-      display: block;
-      width: 60vw; } }
-  .galleryImageContainer .frontPagePicture {
+      display: none; } }
+  .galleryImageContainer .galleryPicture {
     width: 24vw;
     height: 24vh;
     padding: 10px; }
     @media only screen and (min-width: 200px) and (max-width: 650px) {
-      .galleryImageContainer .frontPagePicture {
-        display: block;
-        width: 60vw; } }
+      .galleryImageContainer .galleryPicture {
+        display: none; } }
 
 .galleryFirstImageContainer {
   height: 100vh; }
   @media only screen and (min-width: 200px) and (max-width: 650px) {
     .galleryFirstImageContainer {
       height: auto; } }
-  .galleryFirstImageContainer .frontPagePicture {
+  .galleryFirstImageContainer .firstTitle {
+    display: none; }
+    @media only screen and (min-width: 200px) and (max-width: 650px) {
+      .galleryFirstImageContainer .firstTitle {
+        display: block; } }
+  .galleryFirstImageContainer .firstGalleryPicture {
     display: block;
     width: 100%;
     height: 65vh;
     margin: 0 auto; }
+  .galleryFirstImageContainer .firstDescription {
+    display: none; }
+    @media only screen and (min-width: 200px) and (max-width: 650px) {
+      .galleryFirstImageContainer .firstDescription {
+        display: block; } }
 
 .pictureInfo {
   text-align: left;
