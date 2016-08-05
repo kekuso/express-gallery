@@ -49,10 +49,6 @@ passport.use(new LocalStrategy(
       if(user) {
         console.log("user.name: ", user.name);
         console.log("user.password: ", user.password);
-        var userFound = {
-          name: username,
-          password: password
-        };
         console.log("user found");
         return done(null, user);
       }
@@ -70,7 +66,13 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   console.log("DESERIALIZING ID: ", id);
-  done(null, id);
+  User.findById(id)
+    .then(function (user) {
+      return done(null, (user && user.toJSON()));
+    })
+    .catch(function(err) {
+      return done(err);
+    });
 }); // this becomes req.user
 
 app.get('/', function (req, res) {
