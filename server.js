@@ -39,7 +39,7 @@ passport.use(new LocalStrategy(
   function(username, password, done) {
     console.log("username: ", username);
     console.log("password: ", password);
-    var isAuthenticated;
+    // var isAuthenticated;
     User.findOne({
       where: {
         name: username,
@@ -146,8 +146,21 @@ app.get('/gallery/:id', function (req, res) {
   });
 });
 
+var needsRole = function (role) {
+  return function(req, res, next) {
+    if (req.user && req.user.role === role) {
+      next();
+    }
+    else {
+      console.log("Client has insufficient permissions.");
+      res.render('401');
+    }
+  };
+};
+
 app.get('/gallery/:id/edit',
   isAuthenticated,
+  needsRole('Admin'),
   function (req, res) {
   Picture.findAll( {where: { id: parseInt(req.params.id)}} )
     .then(function (picture) {
@@ -198,6 +211,7 @@ app.post('/gallery',
 
 app.put('/gallery/:id/edit',
   isAuthenticated,
+  needsRole('Admin'),
   function (req, res) {
   Picture.find( {
     where: {
@@ -223,6 +237,7 @@ app.put('/gallery/:id/edit',
 
 app.delete('/gallery/:id',
   isAuthenticated,
+  needsRole('Admin'),
   function (req, res) {
   Picture.destroy( {
     where: {
