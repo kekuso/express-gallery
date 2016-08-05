@@ -30,7 +30,8 @@ html(lang="en")
             else
               div(class = 'displayRight')
                 li(class = 'galleryImageContainer')
-                  img(src = val.url class = 'frontPagePicture')
+                  a(href = "/gallery/" + val.id)
+                    img(src = val.url class = 'frontPagePicture')
                   div(class = 'pictureInfo')
                     h4 #{val.title}
                     p Uploaded by: #{val.author}
