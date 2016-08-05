@@ -25,7 +25,10 @@ html(lang="en")
                   img(src = val.url class = 'frontPagePicture')
                   br
                   form(action="/gallery/" + id + "?_method=delete", method = "post", id = "form")
-                    button(type="submit" class = "deleteButton") Delete picture #{id}
+                    button(type="submit" class = 'galleryButton') Delete picture #{id}
+
+                  a(href = "/gallery/" + id + "/edit")
+                    button(class = 'galleryButton') Edit picture #{id}
                   hr
             else
               div(class = 'displayRight')
