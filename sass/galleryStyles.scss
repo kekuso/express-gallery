@@ -155,11 +155,7 @@ body {
   }
 
   .firstTitle {
-    display: none;
-
-    @include small {
-      display:block;
-    }
+    display: block;
   }
 
   .firstGalleryPicture {
@@ -167,14 +163,6 @@ body {
     width: 100%;
     height: 65vh;
     margin: 0 auto;
-  }
-
-  .firstDescription {
-    display: none;
-
-    @include small {
-      display: block;
-    }
   }
 }
 
@@ -193,6 +181,11 @@ body {
   margin: 1px;
 }
 
+.galleryButtonContainer {
+  display: flex;
+  justify-content: center;
+}
+
 .galleryButton {
   -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
   -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -209,7 +202,6 @@ body {
   -webkit-border-radius:6px;
   border-radius:6px;
   border:1px solid #dcdcdc;
-  display:inline-block;
   cursor:pointer;
   color:#666666;
   font-family:Arial;

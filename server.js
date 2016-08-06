@@ -47,8 +47,6 @@ passport.use(new LocalStrategy(
       }
     }).then(function (user) {
       if(user) {
-        console.log("user.name: ", user.name);
-        console.log("user.password: ", user.password);
         console.log("user found");
         return done(null, user);
       }
@@ -60,12 +58,10 @@ passport.use(new LocalStrategy(
 }));
 
 passport.serializeUser(function(user, done) {
-  console.log("SERIALIZING user: " + user);
   done(null, user.id);
 }); //this gets saved into session store
 
 passport.deserializeUser(function(id, done) {
-  console.log("DESERIALIZING ID: ", id);
   User.findById(id)
     .then(function (user) {
       return done(null, (user && user.toJSON()));
@@ -76,11 +72,11 @@ passport.deserializeUser(function(id, done) {
 }); // this becomes req.user
 
 app.get('/', function (req, res) {
-  console.log("SessionID: " + req.sessionID);
   var locals = req.body;
   Picture.findAll()
     .then(function (picture) {
-      res.render('index', {json: picture});
+      var partialArray = picture.slice(0, 7);
+      res.render('index', {json: partialArray});
     });
 });
 
@@ -213,7 +209,7 @@ app.put('/gallery/:id/edit',
   isAuthenticated,
   needsRole('Admin'),
   function (req, res) {
-  Picture.find( {
+  Picture.findOne( {
     where: {
       id: parseInt(req.params.id)
     }
@@ -224,9 +220,16 @@ app.put('/gallery/:id/edit',
         author: req.body.author,
         url: req.body.url,
         description: req.body.description
+      }).catch(function (error) {
+        if(error) {
+          console.log(error);
+          console.log("Picture title already exists");
+          res.render('409');
+        }
+        else {
+          res.render('success');
+        }
       });
-
-      res.render('success');
     }
     else {
       console.log("Unable to find picture.");
