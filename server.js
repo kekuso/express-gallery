@@ -215,35 +215,28 @@ app.put('/gallery/:id/edit',
     }
   }).then(function (picture) {
     if(picture) {
-      picture.updateAttributes({
+      return picture.updateAttributes({
         title: req.body.title,
         author: req.body.author,
         url: req.body.url,
         description: req.body.description,
         updatedAt: new Date()
-      }.catch(function(error) {
-        if(error) {
-          console.log("ERROR: " + error);
-          console.log("Picture title already exists");
-          return res.render('409');
-        }
+      }).then(function (picture) {
+        console.log("User successfully edited picture");
+        return res.render('success');
       })
-      );
+      .catch(function(error) {
+        console.log("ERROR: " + error);
+        console.log("Picture title already exists");
+        return res.render('409');
+      });
     }
     else {
       console.log("Unable to find picture.");
       return res.render('404');
     }
-  }).catch(function (error) {
-      if(error) {
-        console.log("ERROR: " + error);
-        console.log("Picture title already exists");
-        return res.render('409');
-      }
-    });
-    console.log("User successfully edited picture.");
-    return res.render('success');
   });
+});
 
 app.delete('/gallery/:id',
   isAuthenticated,
