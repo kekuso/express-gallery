@@ -209,7 +209,7 @@ app.put('/gallery/:id/edit',
   isAuthenticated,
   needsRole('Admin'),
   function (req, res) {
-  Picture.findOne( {
+  Picture.findOne({
     where: {
       id: parseInt(req.params.id)
     }
@@ -219,24 +219,31 @@ app.put('/gallery/:id/edit',
         title: req.body.title,
         author: req.body.author,
         url: req.body.url,
-        description: req.body.description
-      }).catch(function (error) {
+        description: req.body.description,
+        updatedAt: new Date()
+      }.catch(function(error) {
         if(error) {
-          console.log(error);
+          console.log("ERROR: " + error);
           console.log("Picture title already exists");
-          res.render('409');
+          return res.render('409');
         }
-        else {
-          res.render('success');
-        }
-      });
+      })
+      );
     }
     else {
       console.log("Unable to find picture.");
-      res.render('404');
+      return res.render('404');
     }
+  }).catch(function (error) {
+      if(error) {
+        console.log("ERROR: " + error);
+        console.log("Picture title already exists");
+        return res.render('409');
+      }
+    });
+    console.log("User successfully edited picture.");
+    return res.render('success');
   });
-});
 
 app.delete('/gallery/:id',
   isAuthenticated,
