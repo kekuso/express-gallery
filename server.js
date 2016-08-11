@@ -75,16 +75,18 @@ passport.deserializeUser(function(id, done) {
 
 app.get('/', function (req, res) {
   var locals = req.body;
-  Picture.findAll({
-    include: ({
-      model: User,
-      as: 'user',
-      required: true
+  Picture
+    .findAll({
+      include: {
+        model: User,
+        as: 'user',
+        required: true
+      },
+      orderBy: 'id asc',
+      limit: 7
     })
-  })
     .then(function (picture) {
-      var partialArray = picture.slice(0, 7);
-      res.render('index', {json: partialArray});
+      res.render('index', {json: picture});
     });
 });
 
