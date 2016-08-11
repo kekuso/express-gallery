@@ -82,7 +82,7 @@ app.get('/', function (req, res) {
         as: 'user',
         required: true
       },
-      orderBy: 'id asc',
+      order: 'id ASC',
       limit: 7
     })
     .then(function (picture) {
