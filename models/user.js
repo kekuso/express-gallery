@@ -7,7 +7,9 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        //models.User.hasMany(models.Picture);
+        models.User.hasMany(models.Picture, {
+          foreignKey: 'user_id'
+        });
       }
     }
   });
