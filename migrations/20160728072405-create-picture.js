@@ -32,6 +32,6 @@ module.exports = {
     });
   },
   down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('Pictures');
+    return queryInterface.dropTable('Pictures', {cascade: true});
   }
 };

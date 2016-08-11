@@ -9,7 +9,7 @@ module.exports = {
     var randomImage = faker.image.imageUrl(600, 400, "people" + "/" + Math.floor(Math.random() * 10));
     var randomTitle = faker.lorem.word(1);
     var randomDescription = faker.lorem.sentence(5);
-    var randomId = Math.floor(Math.random() * 2);
+    var randomId = Math.floor(Math.random() * 2) + 1;
 
 
     var fakePictures = [];
@@ -21,7 +21,7 @@ module.exports = {
       randomImage = faker.image.imageUrl(600, 400, "people" + "/" + Math.floor(Math.random() * 10));
       randomTitle = faker.lorem.word(1) + i;
       randomDescription = faker.lorem.sentence(5);
-      randomId = parseInt(Math.floor(Math.random() * 2) + 3);
+      randomId = parseInt(Math.floor(Math.random() * 2) + 1);
 
       var fakePicture = {
         title:randomTitle,

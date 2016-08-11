@@ -7,6 +7,7 @@ var Gallery = require('./Gallery');
 var methodOverride = require('method-override');
 var db = require('./models');
 var session = require('express-session');
+var cookieParser = require('cookie-parser');
 var RedisStore = require('connect-redis')(session);
 var passport = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
@@ -20,6 +21,7 @@ app.set('view engine', 'pug');
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(session(
   {
     secret: CONFIG.SESSION.secret,
@@ -73,7 +75,13 @@ passport.deserializeUser(function(id, done) {
 
 app.get('/', function (req, res) {
   var locals = req.body;
-  Picture.findAll()
+  Picture.findAll({
+    include: ({
+      model: User,
+      as: 'user',
+      required: true
+    })
+  })
     .then(function (picture) {
       var partialArray = picture.slice(0, 7);
       res.render('index', {json: partialArray});
@@ -178,31 +186,33 @@ app.get('/gallery/:id/edit',
 app.post('/gallery',
   isAuthenticated,
   function (req, res) {
-  var duplicate = false;
-  Picture.findOne({
-    where: {
-      title: req.body.title
-    }
-  }).then(function (picture) {
-    if(picture) {
-      console.log("setting duplicate as true.");
-      res.send("Picture already exists.");
-    }
-    else {
-      Picture.create({
-      title: req.body.title,
-      author: req.body.author,
-      url: req.body.url,
-      description: req.body.description,
-      })
+    console.log("Session user: " + req.session.name);
+    Picture.findOne({
+      where: {
+        title: req.body.title
+      }
+    })
+    .then(function (picture) {
+      if(picture) {
+        res.render('409');
+      }
+      else {
+        console.log(req.session.passport.user);
+        Picture.create({
+          title: req.body.title,
+          author: req.body.author,
+          url: req.body.url,
+          description: req.body.description,
+          user_id: req.session.passport.user
+        })
         .then(function (picture) {
           res.render('success');
         }).catch(function (error) {
           console.log(error);
           res.send("Unable to add picture.");
         });
-    }
-  });
+      }
+    });
 });
 
 app.put('/gallery/:id/edit',
