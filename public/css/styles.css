@@ -77,6 +77,9 @@ body {
     font-weight: bold;
     letter-spacing: 0.05em; }
 
+.titleLink {
+  text-decoration: none; }
+
 .mainPage {
   width: 80vw;
   display: block;

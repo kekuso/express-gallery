@@ -2,9 +2,6 @@
 @import "sass/partials/_reset.scss";
 @import "sass/partials/_clearfix.scss";
 
-// variables
-
-
 // media query ranges
 $small: "only screen and (min-width: 200px) and (max-width: 650px)";
 $large: "only screen and (min-width: 1000px)";
@@ -33,6 +30,10 @@ body {
     font-weight: bold;
     letter-spacing: 0.05em;
   }
+}
+
+.titleLink {
+  text-decoration: none;
 }
 
 .galleryPage {

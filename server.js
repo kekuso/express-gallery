@@ -261,7 +261,7 @@ app.delete('/gallery/:id',
   }).then(function (picture) {
     console.log("Client deleted picture ", req.params.id);
     res.render('deleteSuccess');
-  },function (error) {
+  }).catch(function (error) {
       if(error) {
         console.log("Client tried deleting a picture that doesn't exist.");
         res.render('404');
